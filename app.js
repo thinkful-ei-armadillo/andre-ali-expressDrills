@@ -30,16 +30,13 @@ app.get('/cipher', (req, res) => {
 });
 
 app.get('/lotto', (req, res) => {
-  let matches = 0;
   const { arr } = req.query;
   const lotto = [0, 0, 0, 0, 0, 0]
     .map(i => Math.floor(Math.random() * 20) + 1);
-
-  arr.forEach(i => {
-    lotto.includes(i) ? matches++ : console.log('nope');
-  });
-  
-  console.log(lotto);
+  let matches = 0;
+  arr.forEach(i => lotto.includes(Number(i)) ? matches++ : console.log('Not a match'));
+  let lottoMessage = (matches < 4) ? 'Sorry, you lose' : ((matches === 4) ? 'Congratulations, you win a free ticket' :  ((matches ===5) ? 'Congratulations! You win $100!' : 'Wow! Unbelievable! You could have won the mega millions!'))
+  res.send(lottoMessage);
 });
 
 app.listen(8000, () => {
